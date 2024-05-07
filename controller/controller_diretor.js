@@ -26,7 +26,7 @@ const setInserirNovoDiretor = async (dadosDiretor, contentType) => {
 
             } else {
 
-                //Validação para verificar se a data de relancameno tem um conteúdo válido
+                //Validação para verificar se a data de relancamento tem um conteúdo válido
                 if (dadosDiretor.data_falecimento != '' &&
                     dadosDiretor.data_falecimento != null &&
                     dadosDiretor.data_falecimento != undefined
@@ -97,7 +97,7 @@ const setAtualizarDiretor = async (dadosDiretor, contentType, id) => {
 
             } else {
 
-                //Validação para verificar se a data de relancameno tem um conteúdo válido
+                //Validação para verificar se a data de relancamento tem um conteúdo válido
                 if (dadosDiretor.data_falecimento != '' &&
                     dadosDiretor.data_falecimento != null &&
                     dadosDiretor.data_falecimento != undefined) {

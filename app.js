@@ -41,19 +41,19 @@ const bodyParserJSON = bodyParser.json()
 
 /****************************** Import dos arquivos internos do projeto**************************/
 
-const controllerFilmes = require('./controller/controller_filme.js')
+const controllerDeFilmes = require('./controller/controller_filme.js')
 const controllerAtores = require('./controller/controller_ator.js')
 const controllerDiretores = require('./controller/controller_diretor.js')
 const controllerGeneros = require('./controller/controller_genero.js')
 const controllerClassificacoes = require('./controller/controller_classificacao.js')
 const controllerNacionalidades = require('./controller/controller_nacionalidade.js')
 const controllerSexos = require('./controller/controller_sexo.js')
-const controllerFilmesGeneros = require('./controller/controller_filme_genero.js')
+const controllerDeFilmesGeneros = require('./controller/controller_filme_genero.js')
 const { filmes } = require('./model/filmes.js')
 
 /************************************************************************************************/
 
-//EndPoints: listar todos os filmes
+//listar todos os filmes
 app.get('/v1/acme/filmes', cors(), async (request, response, next) => { 
 
     let controleListaFilmes = require('./controller/funcoes.js')
@@ -62,7 +62,7 @@ app.get('/v1/acme/filmes', cors(), async (request, response, next) => {
     response.status(200)
 })
 
-//EndPoints: listar filmes pelo id
+//listar filmes pelo id
 app.get('/v1/acme/filme/:id', cors(), async (request, response, next) => {
 
     let controleFilmeId = require('./controller/funcoes.js')
@@ -81,11 +81,11 @@ app.get('/v1/acme/filme/:id', cors(), async (request, response, next) => {
 
 })
 
-//New EndPoint: retorna dados do Banco De Dados
+//retorna dados do Banco De Dados
 app.get('/v2/acmefilmes/filmes', cors(), async (request, response, next) => {
 
     //Chama a função para retornar os dados de FIlme
-    let dadosFilmes = await controllerFilmes.getListarFilmes()
+    let dadosFilmes = await controllerDeFilmes.getListarFilmes()
 
     //Validação para retornar os dados ou o erro 404
     if (dadosFilmes) {
@@ -98,12 +98,12 @@ app.get('/v2/acmefilmes/filmes', cors(), async (request, response, next) => {
 
 })
 
-//EndPoints: listar filme pelo nome usando Query
+//listar filme usando Query
 app.get('/v2/acmefilmes/filtro/filme', cors(), async (request, response, next) => {
 
     let nomeFilme = request.query.nomeFilme
     
-    let dadosFilme = await controllerFilmes.getBuscarNomeFilme(nomeFilme)
+    let dadosFilme = await controllerDeFilmes.getBuscarNomeFilme(nomeFilme)
 
     response.status(dadosFilme.status_code)
     response.json(dadosFilme)
@@ -114,7 +114,7 @@ app.get('/v2/acmefilmes/filtro/classificacao', cors(), async (request, response,
 
     let idClassificacao = request.query.idClassificacao
     
-    let dadosFilme = await controllerFilmes.getBuscarPorClassificacao(idClassificacao)
+    let dadosFilme = await controllerDeFilmes.getBuscarPorClassificacao(idClassificacao)
 
     response.status(dadosFilme.status_code)
     response.json(dadosFilme)
@@ -124,20 +124,20 @@ app.get('/v2/acmefilmes/filtro/classificacao', cors(), async (request, response,
 app.get('/v2/acmefilmes/filtro/genero/:idGenero/filmes', cors(), async (request, response, next) => {
     let idGenero = request.params.idGenero
 
-    let dadosFilmes = await controllerFilmesGeneros.getFilmesByGenero(idGenero)
+    let dadosFilmes = await controllerDeFilmesGeneros.getFilmesByGenero(idGenero)
 
     response.status(dadosFilmes.status_code)
     response.json(dadosFilmes)
 })
 
 
-//EndPoints: listar filtrando pelo id
+//listar filtrando pelo id
 app.get('/v2/acmefilmes/filme/:id', cors(), async (request, response, next) => {
   
     //Recebe o ID encaminhando a requisição
     let idFilme = request.params.id
 
-    let dadosFilme = await controllerFilmes.getBuscarFilme(idFilme)
+    let dadosFilme = await controllerDeFilmes.getBuscarFilme(idFilme)
 
     response.status(dadosFilme.status_code)
     response.json(dadosFilme)
@@ -151,7 +151,7 @@ app.post('/v2/acmefilmes/filme',  cors(), bodyParserJSON, async (request, respon
     let dadosBody = request.body
 
     //Encaminha os dados para cotroller inserir no BD
-    let resultDados = await controllerFilmes.setInserirNovoFilme(dadosBody, contentType)
+    let resultDados = await controllerDeFilmes.setInserirNovoFilme(dadosBody, contentType)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
@@ -161,7 +161,7 @@ app.post('/v2/acmefilmes/filme',  cors(), bodyParserJSON, async (request, respon
 app.delete('/v2/acmefilmes/filme/:id',  cors(), bodyParserJSON, async (request, response, next) => {
    
     let idFilme = request.params.id
-    let dadosFilme = await controllerFilmes.setExcluirFilme(idFilme)
+    let dadosFilme = await controllerDeFilmes.setExcluirFilme(idFilme)
 
     response.status(dadosFilme.status_code)
     response.json(dadosFilme)
@@ -177,7 +177,7 @@ app.put ('/v2/acmefilmes/filme/:id',  cors(), bodyParserJSON, async (request, re
     let dadosBody = request.body
 
     //Encaminha os dados para cotroller inserir no BD
-    let resultDados = await controllerFilmes.setAtualizarFilme(dadosBody, contentType, idFilme)
+    let resultDados = await controllerDeFilmes.setAtualizarFilme(dadosBody, contentType, idFilme)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
@@ -668,7 +668,7 @@ app.post('/v2/acmefilmes/filme/genero',  cors(), bodyParserJSON, async (request,
     let dadosBody = request.body
 
     //Encaminha os dados para cotroller inserir no BD
-    let resultDados = await controllerFilmesGeneros.setInserirNovoFilmeGenero(dadosBody, contentType)
+    let resultDados = await controllerDeFilmesGeneros.setInserirNovoFilmeGenero(dadosBody, contentType)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
@@ -678,7 +678,7 @@ app.post('/v2/acmefilmes/filme/genero',  cors(), bodyParserJSON, async (request,
 app.get('/v2/acmefilmes/filmes/generos', cors(), async (request, response, next) => {
 
     //Chama a função para retornar os dados de FIlme
-    let dadosFilmesGeneros = await controllerFilmesGeneros.getListarFilmesGeneros()
+    let dadosFilmesGeneros = await controllerDeFilmesGeneros.getListarFilmesGeneros()
 
     //Validação para retornar os dados ou o erro 404
     if (dadosFilmesGeneros) {
@@ -697,7 +697,7 @@ app.get('/v2/acmefilmes/filme/genero/:id', cors(), async (request, response, nex
     //Recebe o ID encaminhando a requisição
     let idFilmeGenero= request.params.id
 
-    let dadosFilmeGenero = await controllerFilmesGeneros.getBuscarFilmeGenero(idFilmeGenero)
+    let dadosFilmeGenero = await controllerDeFilmesGeneros.getBuscarFilmeGenero(idFilmeGenero)
 
     response.status(dadosFilmeGenero.status_code)
     response.json(dadosFilmeGenero)
@@ -706,7 +706,7 @@ app.get('/v2/acmefilmes/filme/genero/:id', cors(), async (request, response, nex
 app.delete('/v2/acmefilmes/filme/genero/:id',  cors(), bodyParserJSON, async (request, response, next) => {
    
     let idFilmeGenero = request.params.id
-    let dadosFilmeGenero = await controllerFilmesGeneros.setExcluirFilmeGenero(idFilmeGenero)
+    let dadosFilmeGenero = await controllerDeFilmesGeneros.setExcluirFilmeGenero(idFilmeGenero)
 
     response.status(dadosFilmeGenero.status_code)
     response.json(dadosFilmeGenero)
@@ -722,7 +722,7 @@ app.put ('/v2/acmefilmes/filme/genero/:id',  cors(), bodyParserJSON, async (requ
     let dadosBody = request.body
 
     //Encaminha os dados para cotroller inserir no BD
-    let resultDados = await controllerFilmesGeneros.setAtualizarFilmeGenero(dadosBody, contentType, idFilmeGenero)
+    let resultDados = await controllerDeFilmesGeneros.setAtualizarFilmeGenero(dadosBody, contentType, idFilmeGenero)
 
     response.status(resultDados.status_code)
     response.json(resultDados)
